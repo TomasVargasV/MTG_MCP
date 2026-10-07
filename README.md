@@ -43,14 +43,48 @@ pip install -r requirements.txt
 ### 4. Test that it runs
 
 ```bash
+# SSE mode (default) — for Joule and HTTP clients
 python server.py
+
+# stdio mode — for Claude Desktop
+python server.py --transport stdio
 ```
 
-The server will start in stdio mode and wait for MCP messages. Press `Ctrl+C` to stop.
+The server supports two transport modes:
+
+| Flag | Default | Description |
+|---|---|---|
+| `--transport` | `sse` | `sse` for Joule / HTTP clients, `stdio` for Claude Desktop |
+| `--host` | `127.0.0.1` | Host to bind to in SSE mode |
+| `--port` | `8000` | Port to bind to in SSE mode |
+
+A `start_server.bat` file is included for one-click startup on Windows (SSE mode on port 8000).
+
+## Connecting to Joule Work Desktop
+
+1. **Start the server** in SSE mode (the default):
+   ```bash
+   python server.py
+   ```
+   Or double-click `start_server.bat`. The server will listen on `http://127.0.0.1:8000`.
+
+2. **In Joule**, click the **Extensions icon** (database icon in the left navigation rail) → **Connectors** tab.
+
+3. Click **+ New** → **Add Connector**.
+
+4. Enter:
+   - **Name:** `Scryfall MTG`
+   - **URL:** `http://127.0.0.1:8000/sse`
+
+5. Click **Add**.
+
+6. In your chat, open the **connector picker** (in the message input toolbar) and toggle **Scryfall MTG** on for the conversation.
+
+> **Note:** The server must be running before Joule can connect. Start it before opening Joule or before activating the connector.
 
 ## Connecting to Claude Desktop
 
-Edit your Claude Desktop config file:
+Claude Desktop uses stdio transport. Edit your config file:
 
 - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
 - **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
@@ -62,7 +96,7 @@ Add the server to the `mcpServers` section:
   "mcpServers": {
     "scryfall-mtg": {
       "command": "python",
-      "args": ["C:/path/to/scryfall-mtg/server.py"],
+      "args": ["C:/path/to/scryfall-mtg/server.py", "--transport", "stdio"],
       "env": {}
     }
   }
@@ -76,7 +110,7 @@ If using a virtual environment, point `command` to the venv's Python:
   "mcpServers": {
     "scryfall-mtg": {
       "command": "C:/path/to/scryfall-mtg/.venv/Scripts/python.exe",
-      "args": ["C:/path/to/scryfall-mtg/server.py"],
+      "args": ["C:/path/to/scryfall-mtg/server.py", "--transport", "stdio"],
       "env": {}
     }
   }
@@ -84,14 +118,6 @@ If using a virtual environment, point `command` to the venv's Python:
 ```
 
 Restart Claude Desktop after saving.
-
-## Connecting to Joule Work Desktop
-
-In Joule, go to **Settings > MCP Servers** and add a new connector:
-
-- **Name:** Scryfall MTG
-- **Command:** `python` (or the full path to your venv Python)
-- **Args:** full path to `server.py`
 
 ## Available Tools (31)
 
