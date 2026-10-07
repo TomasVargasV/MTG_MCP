@@ -18,6 +18,7 @@ INCLUDED_FIELDS = {
     "layout": "String — Card layout (normal, split, flip, transform, modal_dfc, adventure, meld, etc.).",
     "released_at": "Date — Release date of this printing.",
     "uri": "URI — API link to this card on Scryfall.",
+    "scryfall_uri": "URI — Direct link to this card's page on the Scryfall website. Always use this for linking users to cards.",
     "rulings_uri": "URI — API link to this card's rulings.",
 
     # Gameplay
@@ -60,7 +61,7 @@ INCLUDED_FIELDS = {
 # The set of field keys to keep when filtering card objects
 INCLUDED_FIELD_KEYS = {
     "id", "oracle_id", "tcgplayer_id", "name", "layout", "released_at",
-    "uri", "rulings_uri",
+    "uri", "scryfall_uri", "rulings_uri",
     "mana_cost", "cmc", "type_line", "oracle_text", "power", "toughness",
     "loyalty", "defense", "life_modifier", "hand_modifier",
     "colors", "color_identity", "color_indicator", "keywords",
@@ -105,11 +106,7 @@ EXCLUDED_FIELDS = {
         "description": "Language code for this printing.",
         "reason": "Multi-language card support.",
     },
-    "scryfall_uri": {
-        "type": "URI",
-        "description": "Link to this card's page on the Scryfall website.",
-        "reason": "Providing browseable links to users.",
-    },
+
     "prints_search_uri": {
         "type": "URI",
         "description": "API link to search for all printings of this card.",
