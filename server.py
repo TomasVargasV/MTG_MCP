@@ -17,7 +17,7 @@ import os
 # Add the server directory to the path so metadata imports work
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 
 from scryfall_client import ScryfallClient
 from metadata import (
